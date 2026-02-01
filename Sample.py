@@ -1,68 +1,85 @@
-import pyodbc
-import pandas as pd
-from vanna.google import GoogleGeminiChat
+import os
+from vanna.base import VannaBase
 from vanna.chromadb import ChromaDB_VectorStore
+from google import genai
+from google.genai import types
 
-# 1. Define the Vanna Client with manual SQL handling
-class MyVanna(ChromaDB_VectorStore, GoogleGeminiChat):
+# --- Configuration ---
+# Get this from https://aistudio.google.com/
+GEMINI_API_KEY = "YOUR_API_KEY_HERE"
+GEMINI_MODEL = "gemini-1.5-flash"
+
+# --- Custom Class Definition ---
+# This connects the NEW Google SDK to the STABLE Vanna library
+class MyVanna(ChromaDB_VectorStore, VannaBase):
     def __init__(self, config=None):
+        # 1. Initialize Vector Store (ChromaDB)
         ChromaDB_VectorStore.__init__(self, config=config)
-        GoogleGeminiChat.__init__(self, config=config)
+        # 2. Initialize Base Class
+        VannaBase.__init__(self, config=config)
+        
+        # 3. Initialize the New Google Client
+        self.client = genai.Client(api_key=config['api_key'])
+        self.model_name = config['model']
 
-    # OVERRIDE: This is how Vanna talks to SQL Server
-    def run_sql(self, sql: str) -> pd.DataFrame:
-        # Build your connection string
-        conn_str = (
-            "DRIVER={ODBC Driver 17 for SQL Server};"
-            "SERVER=localhost;"  # e.g., localhost or 192.168.1.5
-            "DATABASE=YOUR_DB_NAME;"
-            "UID=YOUR_USERNAME;"
-            "PWD=YOUR_PASSWORD;"
-            # "Trusted_Connection=yes;" # Uncomment this line if using Windows Auth instead of User/Pass
-        )
-    
+    # -- Required Vanna Methods --
+    def system_message(self, message: str) -> any:
+        return {"role": "system", "content": message}
+
+    def user_message(self, message: str) -> any:
+        return {"role": "user", "content": message}
+
+    def assistant_message(self, message: str) -> any:
+        return {"role": "model", "content": message}
+
+    def submit_prompt(self, prompt, **kwargs) -> str:
+        # Convert Vanna's internal message format to the new Google GenAI format
+        system_instruction = None
+        last_user_message = ""
+
+        # Extract system prompt and the actual question
+        for msg in prompt:
+            if msg['role'] == 'system':
+                system_instruction = msg['content']
+            elif msg['role'] == 'user':
+                last_user_message = msg['content']
+
+        # Call the New Google GenAI SDK
         try:
-            conn = pyodbc.connect(conn_str)
-            df = pd.read_sql(sql, conn)
-            conn.close()
-            return df
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=last_user_message,
+                config=types.GenerateContentConfig(
+                    system_instruction=system_instruction,
+                    temperature=0.0, # Keep it 0 for precise SQL
+                )
+            )
+            return response.text
         except Exception as e:
-            print(f"SQL Error: {e}")
-            return None
+            return f"Error calling Gemini: {e}"
 
-# 2. Configuration & Initialization
-api_key = "YOUR_GOOGLE_API_KEY"
-config = {
-    "api_key": api_key,
-    "model": "gemini-1.5-pro",
-    "path": "./chroma_db"
-}
+# --- Main Logic ---
+# 1. Initialize
+# Note: We pass the API key here, but our custom class handles it manually above.
+vn = MyVanna(config={'api_key': GEMINI_API_KEY, 'model': GEMINI_MODEL})
 
-vn = MyVanna(config=config)
+# 2. Connect to SQL Server
+vn.connect_to_mssql(
+    odbc_conn_str=(
+        "DRIVER={ODBC Driver 17 for SQL Server};" # Check if you have Driver 18 installed if this fails
+        "SERVER=YOUR_SERVER_NAME;"  # e.g., localhost
+        "DATABASE=YOUR_DB_NAME;"
+        "Trusted_Connection=yes;"   # Use Windows Authentication
+    )
+)
 
-# 3. Train on the SQL Server Schema
-# Note: SQL Server has a specific way to get schema info (INFORMATION_SCHEMA)
-sql_get_schema = """
-SELECT 
-    TABLE_NAME, 
-    COLUMN_NAME, 
-    DATA_TYPE 
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_SCHEMA = 'dbo' 
-"""
+# 3. Test it
+question = "What are the top 5 tables?"
+print(f"Asking: {question}...")
 
-# Fetch schema and train
-# We manually fetch the schema dataframe first to ensure it works
-df_schema = vn.run_sql(sql_get_schema)
+# Optional: Train on schema if this is the first time
+# df_info = vn.run_sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
+# plan = vn.get_training_plan_generic(df_info)
+# vn.train(plan=plan)
 
-if df_schema is not None:
-    # Train the "Plan" (Tables and Columns)
-    plan = vn.train(plan=df_schema)
-    print("Training Complete! Connected to SQL Server.")
-else:
-    print("Could not connect to SQL Server.")
-
-# 4. Launch UI
-from vanna.flask import VannaFlaskApp
-app = VannaFlaskApp(vn)
-app.run()
+response = vn.ask(question)
