@@ -6,8 +6,8 @@ from google.genai import types
 
 # --- Configuration ---
 # Get this from https://aistudio.google.com/
-GEMINI_API_KEY = "YOUR_API_KEY_HERE"
-GEMINI_MODEL = "gemini-1.5-flash"
+GEMINI_API_KEY = "Your-API-Key-Here"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 # --- Custom Class Definition ---
 # This connects the NEW Google SDK to the STABLE Vanna library
@@ -67,19 +67,19 @@ vn = MyVanna(config={'api_key': GEMINI_API_KEY, 'model': GEMINI_MODEL})
 vn.connect_to_mssql(
     odbc_conn_str=(
         "DRIVER={ODBC Driver 17 for SQL Server};" # Check if you have Driver 18 installed if this fails
-        "SERVER=YOUR_SERVER_NAME;"  # e.g., localhost
-        "DATABASE=YOUR_DB_NAME;"
+        "SERVER=Your_Server_Name;"  # Common default for local SQL Server Express
+        "DATABASE=Your_Database_Name;"
         "Trusted_Connection=yes;"   # Use Windows Authentication
     )
 )
 
 # 3. Test it
-question = "What are the top 5 tables?"
+question = "List the top 5 customers by total purchase amount."
 print(f"Asking: {question}...")
 
 # Optional: Train on schema if this is the first time
-# df_info = vn.run_sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
-# plan = vn.get_training_plan_generic(df_info)
-# vn.train(plan=plan)
+#df_info = vn.run_sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
+#plan = vn.get_training_plan_generic(df_info)
+#vn.train(plan=plan)
 
 response = vn.ask(question)
