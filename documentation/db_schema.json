@@ -1,0 +1,278 @@
+{
+    "crm_cust_info": [
+        {
+            "name": "cst_id",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_key",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_firstname",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_lastname",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_marital_status",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_gndr",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cst_create_date",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ],
+    "crm_prd_info": [
+        {
+            "name": "prd_id",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "cat_id",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_key",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_nm",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_cost",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_line",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_start_dt",
+            "type": "datetime",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_end_dt",
+            "type": "datetime",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_start_dt",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "prd_end_dt",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ],
+    "crm_sales_details": [
+        {
+            "name": "sls_ord_num",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_prd_key",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_cust_id",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_order_dt",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_order_dt",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_ship_dt",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_ship_dt",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_due_dt",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_due_dt",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_sales",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_quantity",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "sls_price",
+            "type": "int",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ],
+    "erp_cust_az12": [
+        {
+            "name": "cid",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "bdate",
+            "type": "date",
+            "length": null,
+            "nullable": "YES"
+        },
+        {
+            "name": "gen",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ],
+    "erp_loc_a101": [
+        {
+            "name": "cid",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cntry",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ],
+    "erp_px_cat_g1v2": [
+        {
+            "name": "id",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "cat",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "subcat",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "maintenance",
+            "type": "nvarchar",
+            "length": 50,
+            "nullable": "YES"
+        },
+        {
+            "name": "dwh_create_date",
+            "type": "datetime2",
+            "length": null,
+            "nullable": "YES"
+        }
+    ]
+}
