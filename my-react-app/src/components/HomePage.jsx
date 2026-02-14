@@ -5,7 +5,7 @@ import IddaIcon from './IconManager';
 
 const HomePage = () => {
   const [filterType, setFilterType] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [_searchQuery, setSearchQuery] = useState('');
 
   const clients = {
     Investors: ['Alpha Ventures', 'Global Capital'],
@@ -13,17 +13,45 @@ const HomePage = () => {
     Shareholders: ['Jane Doe', 'Investment Trust']
   };
 
+  const businessTerms = {
+  A: 'Accounts Record',
+  B: 'Biometric Data',
+  C: 'Compliance Logs',
+  D: 'Depreciation Schedules',
+  E: 'Expense Reports',
+  F: 'Financial Statements',
+  G: 'General Ledger',
+  H: 'HR Records',
+  I: 'Inventory Lists',
+  J: 'Job Costing Data',
+  K: 'Key Performance Indicators',
+  L: 'Logistics Data File',
+  M: 'Market Intelligence',
+  N: 'Network Access Logs',
+  O: 'Operational Metrics',
+  P: 'Payroll Data',
+  Q: 'Quality Control Records',
+  R: 'Regulatory Filings',
+  S: 'Sales Data',
+  T: 'Tax Returns',
+  U: 'User Access Logs',
+  V: 'Vendor Contracts',
+  W: 'Warehouse Inventory',
+  X: 'XBRL Financial Data',
+  Y: 'Yield Analysis Reports',
+  Z: 'Zero-Trust Security Logs'
+};
   return (
     <div style={styles.pageContainer}>
       {/* C. TOP NAVIGATION BAR */}
       <nav style={styles.topNav}>
         {/* INTEGRATED LOGO HERE */}
         <div style={styles.logoSection}>
-          <IddaLogo height="40px" />
+          <IddaLogo height="80px" />
         </div>
 
         <div style={styles.searchBar}>
-          <IddaIcon name="search" size="20px" />
+          <IddaIcon name="search" size="50px" />
           <input 
             type="text" 
             placeholder="Search within IDDA..." 
@@ -33,10 +61,10 @@ const HomePage = () => {
         </div>
 
         <div style={styles.toolIcons}>
-          <div title="Auto Documentation"><IddaIcon name="autodocs" size="24px" /></div>
-          <div title="Bookmark Work"><IddaIcon name="bookmark" size="24px" /></div>
-          <div title="Edit Data"><IddaIcon name="edit" size="24px" /></div>
-          <div title="Data Linking"><IddaIcon name="linking" size="24px" /></div>
+          <div title="Auto Documentation"><IddaIcon name="autodocs" size="35px" /></div>
+          <div title="Bookmark Work"><IddaIcon name="bookmark" size="30px" /></div>
+          <div title="Edit Data"><IddaIcon name="edit" size="32px" /></div>
+          <div title="Data Linking"><IddaIcon name="linking" size="35px" /></div>
         </div>
       </nav>
 
@@ -44,8 +72,8 @@ const HomePage = () => {
         {/* A. LEFT SIDEBAR */}
         <aside style={styles.sidebar}>
           <div style={styles.sectionHeader}>
-            <IddaIcon name="filter" size="18px" />
-            <span style={{marginLeft: '8px'}}>Client Filters</span>
+            <IddaIcon name="filter" size="28px" />
+            <span style={{marginLeft: '9px'}}>Client Filters</span>
           </div>
           
           {Object.keys(clients).map(type => (
@@ -54,7 +82,7 @@ const HomePage = () => {
                 onClick={() => setFilterType(type)}
                 style={{...styles.filterBtn, fontWeight: filterType === type ? 'bold' : 'normal'}}
               >
-                <IddaIcon name="tags" size="14px" /> {type}
+                <IddaIcon name="tags" size="20px" /> {type}
               </button>
               {filterType === type && (
                 <ul style={styles.clientList}>
@@ -66,32 +94,33 @@ const HomePage = () => {
         </aside>
 
         {/* B. CENTER DICTIONARY AREA */}
-        <main style={styles.mainArea}>
-          {filterType ? (
-            <div style={styles.dictionaryContainer}>
-              <header style={styles.dictHeader}>
-                <IddaIcon name="dictionary" size="30px" />
-                <h2 style={{marginLeft: '10px'}}>Dictionary: {filterType}</h2>
-              </header>
-              
-              <div style={styles.alphabetGrid}>
-                {['A', 'B', 'C', 'L'].map(letter => (
-                  <section key={letter} style={styles.dictSection}>
-                    <h3 style={styles.alphaLetter}>{letter}</h3>
-                    <div style={styles.dataPlaceholder}>
-                      {letter === 'L' ? 'Logistics Data File' : letter === 'A' ? 'Accounts Record' : 'Data Entry'}
-                    </div>
-                  </section>
-                ))}
-              </div>
+<main style={styles.mainArea}>
+  {filterType ? (
+    <div style={styles.dictionaryContainer}>
+      <header style={styles.dictHeader}>
+        <IddaIcon name="dictionary" size="50px" />
+        <h4 style={{ marginLeft: '12px' }}>Dictionary: {filterType}</h4>
+      </header>
+
+      {/* THE FIX: Use the alphabetGrid style to create the matrix */}
+      <div style={styles.alphabetGrid}>
+        {Object.keys(businessTerms).map((letter) => (
+          <section key={letter} style={styles.dictSection}>
+            <h2 style={styles.alphaLetter}>{letter}</h2>
+            <div style={styles.dataPlaceholder}>
+              {businessTerms[letter]}
             </div>
-          ) : (
-            <div style={styles.emptyState}>
-              <IddaIcon name="database" size="50px" />
-              <p>Please select a Client Filter to open the Dictionary</p>
-            </div>
-          )}
-        </main>
+          </section>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div style={styles.emptyState}>
+      <IddaIcon name="database" size="50px" />
+      <p>Please select a Client Filter to open the Dictionary</p>
+    </div>
+  )}
+</main>
       </div>
 
       {/* D. BOTTOM LEFT CHATBOX */}

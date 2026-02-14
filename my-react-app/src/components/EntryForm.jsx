@@ -30,23 +30,23 @@ const EntryForm = () => {
     <div style={styles.container}>
       {/* BACKGROUND LOGO: Acting as a subtle watermark */}
       <div style={styles.backgroundWatermark}>
-        <IddaLogo height="500px" />
+        <IddaLogo height="1000px" />
       </div>
 
       <main style={styles.main}>
         <div style={styles.formHeader}>
           {/* Logo integrated above the form title */}
-          <IddaLogo height="60px" style={{ marginBottom: '15px' }} />
-          <h2 style={styles.formTitle}>Project Entry</h2>
+          <IddaLogo height="100px" style={{ marginBottom: '30px' }} />
+          <h3 style={styles.formTitle}>Project Entry</h3>
           <p style={styles.subtitle}>Please enter your details to access the IDDA dashboard</p>
         </div>
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Which Department?</label>
+            <label style={styles.label}>Department?</label>
             <input 
               type="text" 
-              placeholder="e.g. Computer Science"
+              placeholder="e.g. ACCOUNTS, HR, IT"
               style={styles.input}
               value={formData.department}
               onChange={(e) => setFormData({...formData, department: e.target.value})}
@@ -96,7 +96,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '20px',
+    padding: '100px',
     position: 'relative', 
     overflow: 'hidden',
     backgroundColor: '#f8fafc'
@@ -112,7 +112,7 @@ const styles = {
   },
   main: {
     width: '100%',
-    maxWidth: '450px',
+    maxWidth: '500px',
     position: 'relative',
     zIndex: 1 
   },
